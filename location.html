@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwklKr2er6DueUKq9kMIAsIZatfX0lFaUHZj9APvKdMQ&s" type="image/icon type">
+    <link rel="stylesheet" href="location.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="search-box">
+            <i class='bx bxs-map'></i>
+            <input type="text" placeholder="enter location" id="city" name="city">
+            <button class="bx bx-search" onclick="get_city()"></button>
+        </div>
+
+        <div class="weather-box">
+            <div class="box">
+                <div class="info-weather">
+                    <div class="weather">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/000/367/080/small/e3ml_y6ip_170108.jpg" id="image">
+                        <p id="temperature" class="temperature">0<sup>o</sup>c</p>
+                        <p id="description" class="description">Broken Clouds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-details">
+            <div class="humidity">
+                <i class='bx bx-water'></i>
+                <div class="text">
+                    <div class="info-humidity">
+                        <p id="humidity">0%</p>
+                    </div>
+                    <p>humidity</p>
+                </div>
+            </div>
+
+            <div class="wind">
+                <i class='bx bx-wind'></i>
+                <div class="text">
+                    <div class="info-wind">
+                        <p id="wind">0km/hr</p>
+                    </div>
+                    <p>wind speed</p>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        function get_city(){
+            var x=document.getElementById("city").value;
+            var apikey = "17021b43f74a74636f285f17d49e5aeb";
+            var api = "https://api.openweathermap.org/data/2.5/weather?q="+x+"&appid="+apikey+"&unit=metric";
+            $.ajax({
+                url:api,
+                method:"get",
+                data:{},
+                success: function(response){
+                    document.getElementById("temperature").innerHTML=response.main.temp+"<sup>o</sup>c";
+                    document.getElementById("description").innerHTML=response.weather[0].description;
+                    document.getElementById("humidity").innerHTML=response.main.humidity+"%";
+                    document.getElementById("wind").innerHTML=response.wind.speed+"km/hr";
+                    if(response.weather[0].main=="Haze"){
+                        document.getElementById("image").src="https://cdn-icons-png.flaticon.com/512/1779/1779807.png";
+                    }
+                    if(response.weather[0].main=="Mist"){
+                        document.getElementById("image").src="https://static.thenounproject.com/png/3244281-200.png";
+                    }
+                    if(response.weather[0].main=="Clear"){
+                        document.getElementById("image").src="https://www.clipartmax.com/png/small/129-1298625_vector-image-of-weather-forecast-color-symbol-for-sunny-weather-symbols.png";
+                    }
+                    if(response.weather[0].main=="Rain"){
+                        document.getElementById("image").src="https://img.freepik.com/premium-vector/cloud-with-rain-icon-vector-illustration-weather-symbol-flat-design_171867-1415.jpg";
+                    }
+                    if(response.weather[0].main=="Snow"){
+                        document.getElementById("image").src="https://media.istockphoto.com/id/1091680182/vector/cloud-with-snowfall-icon-multicolored-weather-icon.jpg?s=612x612&w=0&k=20&c=S88jc1CJP7nZC4QT9uIlykX56gm7pTUQgq_17sLXUpM=";
+                    }
+                    if(response.weather[0].main=="Cloud"){
+                        document.getElementById("image").src="https://cdn-icons-png.flaticon.com/512/6122/6122714.png";
+                    }
+                }
+            })
+            
+        }
+    </script>
+</body>
+</html>
